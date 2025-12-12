@@ -45,9 +45,9 @@ cp .env.example .env
 ## Environment Configuration
 - BROADCAST_DRIVER=pusher
 
-- PUSHER_APP_ID=local-app-id
-- PUSHER_APP_KEY=local-app-key
-- PUSHER_APP_SECRET=local-app-secret
+- PUSHER_APP_ID=local
+- PUSHER_APP_KEY=localkey
+- PUSHER_APP_SECRET=localsecret
 - PUSHER_APP_CLUSTER=mt1
 
 - PUSHER_HOST=127.0.0.1

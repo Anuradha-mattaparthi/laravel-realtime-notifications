@@ -1,0 +1,34 @@
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: rn_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+
+  soketi:
+    image: quay.io/soketi/soketi:latest-16-alpine
+    container_name: rn_soketi
+    environment:
+      # keep SOKETI_ prefix for server settings
+      SOKETI_REDIS_HOST: redis
+      SOKETI_REDIS_PORT: 6379
+
+      # *** Provide the default app credentials the array driver uses ***
+      DEFAULT_APP_ID: local
+      DEFAULT_APP_KEY: localkey
+      DEFAULT_APP_SECRET: localsecret
+      DEFAULT_APP_CLUSTER: mt1
+
+      # optional server settings
+      SOKETI_HOST: 0.0.0.0
+      SOKETI_PORT: 6001
+      SOKETI_DEBUG: "1"
+    ports:
+      - "6001:6001"
+    depends_on:
+      - redis
+
+volumes:
+  redis-data:

@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MessageController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -17,4 +19,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+
+
+Route::middleware(['auth'])->group(function () {
+    Route::post('/messages', [MessageController::class, 'store'])->name('messages.store');
+    Route::view('/messages-ui', 'messages')->name('messages.ui');
+});
 require __DIR__.'/auth.php';

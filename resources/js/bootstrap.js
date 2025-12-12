@@ -6,14 +6,31 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 import Echo from "laravel-echo";
 import Pusher from "pusher-js";
+
 window.Pusher = Pusher;
 
 window.Echo = new Echo({
-  broadcaster: "pusher",
-  key: import.meta.env.VITE_PUSHER_APP_KEY,
-  wsHost: import.meta.env.VITE_PUSHER_HOST || window.location.hostname,
-  wsPort: import.meta.env.VITE_PUSHER_PORT || 6001,
-  forceTLS: false,
-  disableStats: true,
-  enabledTransports: ['ws','wss'],
-});
+    broadcaster: 'pusher',
+    key: import.meta.env.VITE_PUSHER_APP_KEY,
+    cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER || 'mt1', // <- ensure cluster present
+    wsHost: import.meta.env.VITE_PUSHER_HOST || 'localhost',   // try 'localhost' first
+    wsPort: import.meta.env.VITE_PUSHER_PORT || 6001,
+    forceTLS: false,
+    disableStats: true,
+    enabledTransports: ['ws','wss'],
+  });
+  window.dispatchEvent(new Event("echo-ready"));
+
+
+/*window.Echo.channel("test-channel")
+    .listen("TestMessage", (e) => {
+        console.log("Received message:", e.message);
+    });*/
+
+/**
+ * Echo exposes an expressive API for subscribing to channels and listening
+ * for events that are broadcast by Laravel. Echo and event broadcasting
+ * allow your team to quickly build robust real-time web applications.
+ */
+
+import './echo';

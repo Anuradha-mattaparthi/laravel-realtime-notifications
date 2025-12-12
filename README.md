@@ -1,29 +1,29 @@
-# Real-Time Notification System (Laravel + Redis + Soketi)
+# Real-Time Notification System (Laravel + Pusher)
 
-This project is a real-time notification system built using **Laravel**, **Redis**, **Soketi**, and **Laravel Echo**.  
-It demonstrates event broadcasting, WebSocket communication, and listening for notifications in real time.
+This project is a real-time notification system built using Laravel’s broadcasting features with Pusher as the WebSocket provider.
+It demonstrates how to broadcast events from the backend and receive live notifications on the frontend using Laravel Echo.
 
 ---
 
 ## Features
 
-- Real-time notifications using WebSockets  
-- Event Broadcasting with Laravel  
-- Redis as broadcasting/queue driver  
-- Soketi as WebSocket Server  
-- Laravel Echo + Pusher JS client  
-- Example event + frontend listener  
-- Clean and easy-to-understand structure  
+- A simple real-time notification system built with Laravel and Pusher WebSockets.
+- Messages are stored in the database and processed through Laravel’s queue system. 
+- After processing, events are broadcast so clients receive updates instantly.
+- A minimal frontend listens via Laravel Echo and displays messages in real time. 
+- The sender_id is automatically obtained from the authenticated user using Laravel Breeze.
+- A queued job processes each message in the background, sanitizing content and adding any required metadata.
+- After processing, the job broadcasts a message.received event through Pusher so all connected clients receive the update instantly. 
 
 ---
 
 ## Tech Stack
 
 - **Laravel** – Backend framework  
-- **Redis** – Broadcasting / Queue  
-- **Soketi** – WebSocket server (Pusher protocol compatible)  
+- **Laravel Queue** – Handles background job processing 
+- **Pusher** – WebSocket broadcasting service 
 - **Laravel Echo** – Frontend event listener  
-- **Pusher JS** – WebSocket client library  
+- **Pusher JS** – WebSocket client library used by Echo
 
 ---
 
@@ -45,26 +45,26 @@ cp .env.example .env
 ## Environment Configuration
 - BROADCAST_DRIVER=pusher
 
-- PUSHER_APP_ID=local
-- PUSHER_APP_KEY=localkey
-- PUSHER_APP_SECRET=localsecret
-- PUSHER_APP_CLUSTER=mt1
+- PUSHER_APP_ID=your_app_id
+- PUSHER_APP_KEY=your_app_key
+- PUSHER_APP_SECRET=your_app_secret_key
+- PUSHER_APP_CLUSTER=your_cluster
 
-- PUSHER_HOST=127.0.0.1
-- PUSHER_PORT=6001
-- PUSHER_SCHEME=http
-- PUSHER_ENCRYPTED=false
+- PUSHER_HOST=
+- PUSHER_PORT=
+- PUSHER_SCHEME=https
+- PUSHER_ENCRYPTED=true
 
 - MIX_PUSHER_APP_KEY=${PUSHER_APP_KEY}
-- MIX_PUSHER_HOST=${PUSHER_HOST}
-- MIX_PUSHER_PORT=${PUSHER_PORT}
-- MIX_PUSHER_SCHEME=${PUSHER_SCHEME}
+- VITE_PUSHER_APP_CLUSTER=${PUSHER_APP_CLUSTER}
+
+## Pusher Setup Requirements
+- **Backend** - composer require pusher/pusher-php-server
+- **Frontend (JavaScript / Vite)** - npm install pusher-js laravel-echo
 
 
 ## Start Required Services
 
-- **Start Redis** - redis-server
-- **Start Soketi WebSocket Server** - soketi start
 - **Start Laravel Application** - php artisan serve
 - **Start Frontend Build** - npm run dev
 

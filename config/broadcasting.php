@@ -46,22 +46,21 @@ return [
             ],
         ],
 
-        'pusher' => [
+         'pusher' => [
     'driver' => 'pusher',
     'key' => env('PUSHER_APP_KEY'),
     'secret' => env('PUSHER_APP_SECRET'),
     'app_id' => env('PUSHER_APP_ID'),
     'options' => [
-        'cluster' => env('PUSHER_APP_CLUSTER', 'mt1'),
-        'useTLS' => false,
-        'encrypted' => false,
-
-        // REQUIRED for SOKETI
-        'host' => env('PUSHER_HOST', 'localhost'),
-        'port' => env('PUSHER_PORT', 6001),
-        'scheme' => env('PUSHER_SCHEME', 'http'),
+        'cluster' => env('PUSHER_APP_CLUSTER'),
+        'useTLS' => true,
+        // Only include host/port/scheme here if you're connecting to a custom websocket server.
+        // 'host' => env('PUSHER_HOST'),
+        // 'port' => env('PUSHER_PORT'),
+        // 'scheme' => env('PUSHER_SCHEME'),
     ],
 ],
+
 
 
 

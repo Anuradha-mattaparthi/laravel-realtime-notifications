@@ -1,20 +1,27 @@
+// resources/js/echo.js
 import Echo from "laravel-echo";
 import Pusher from "pusher-js";
 
 window.Pusher = Pusher;
 
-console.log("KEY:", import.meta.env.VITE_PUSHER_APP_KEY);
+// Use Vite envs (import.meta.env)
+const key = import.meta.env.VITE_PUSHER_APP_KEY;
+const cluster = import.meta.env.VITE_PUSHER_APP_CLUSTER || 'mt1';
 
-window.Echo = new Echo({
+if (!key) {
+  console.warn('VITE_PUSHER_APP_KEY missing — realtime disabled.');
+  // still export a no-op Echo to avoid errors
+  window.Echo = null;
+} else {
+  window.Echo = new Echo({
     broadcaster: 'pusher',
-    key: import.meta.env.VITE_PUSHER_APP_KEY,
-    cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
-    wsHost: window.location.hostname,
-    wsPort: 6001,
-    forceTLS: false,
+    key: key,
+    cluster: cluster,
+    forceTLS: true,        // use TLS for managed Pusher
     disableStats: true,
-    enabledTransports: ['ws', 'wss']
-});
+    enabledTransports: ['ws', 'wss'],
+  });
 
-// Let other JS know Echo is ready
-window.dispatchEvent(new Event("echo-ready"));
+  // notify inline scripts that Echo is ready
+  window.dispatchEvent(new Event("echo-ready"));
+}

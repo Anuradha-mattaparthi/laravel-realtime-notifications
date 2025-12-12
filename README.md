@@ -63,10 +63,10 @@ MIX_PUSHER_SCHEME=${PUSHER_SCHEME}
 
 ## Start Required Services
 
-**Start Redis** - redis-server
-**Start Soketi WebSocket Server** - soketi start
-**Start Laravel Application** - php artisan serve
-**Start Frontend Build** - npm run dev
+- **Start Redis** - redis-server
+- **Start Soketi WebSocket Server** - soketi start
+- **Start Laravel Application** - php artisan serve
+- **Start Frontend Build** - npm run dev
 
 
 
